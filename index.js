@@ -291,7 +291,7 @@ class BreakoutGame {
     submitScoreButton.classList.add('popup__button');
     submitScoreButton.textContent = 'Submit Score';
     submitScoreButton.addEventListener('click', () => {
-      alert('Score submitted!');
+      this.submitScore(this.score);
       popup.remove();
       this.resetGame();
     });
@@ -300,6 +300,11 @@ class BreakoutGame {
     popup.appendChild(playAgainButton);
     popup.appendChild(submitScoreButton);
     document.body.appendChild(popup);
+  }
+
+  submitScore(score) {
+    console.log(`Score submitted: ${score}`);
+    alert('Score submitted!');
   }
 
   resetGame() {
