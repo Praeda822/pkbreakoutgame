@@ -18,6 +18,10 @@ let currentPosition = userStart;
 const ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
 
+/**
+ * Represents a block in the game.
+ * @class
+ */
 class Block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
@@ -27,6 +31,10 @@ class Block {
   }
 }
 
+/**
+ * Array of Block objects representing the game blocks.
+ * @type {Block[]}
+ */
 const blocks = [
   // x axis top row
   new Block(10, 270),
@@ -48,6 +56,51 @@ const blocks = [
   new Block(450, 210),
 ];
 
+/**
+ * Draws the user on the screen at the current position.
+ */
+function drawUser() {
+  user.style.left = currentPosition[0] + 'px';
+  user.style.bottom = currentPosition[1] + 'px';
+}
+
+/**
+ * Draws the ball on the screen at the current position.
+ */
+function drawBall() {
+  ball.style.left = ballCurrentPosition[0] + 'px';
+  ball.style.bottom = ballCurrentPosition[1] + 'px';
+}
+
+/**
+ * Moves the user based on the key pressed.
+ * @param {KeyboardEvent} e - The keyboard event object.
+ */
+function moveUser(e) {
+  switch (e.key) {
+    case 'ArrowLeft':
+      if (currentPosition[0] > 0) currentPosition[0] -= 10;
+      drawUser();
+      break;
+
+    case 'ArrowRight':
+      if (currentPosition[0] < boardWidth - blockWidth)
+        currentPosition[0] += 10;
+      drawUser();
+      break;
+  }
+}
+
+/**
+ * Moves the ball by updating its current position and then calls the drawBall() & checkCollide() functions respectively to draw the ball and check for collisions.
+ */
+function moveBall() {
+  ballCurrentPosition[0] += xDirection;
+  ballCurrentPosition[1] += yDirection;
+  drawBall();
+  checkCollide();
+}
+
 // Add my blocks
 const mkBlocks = function () {
   for (let i = 0; i < blocks.length; i++) {
@@ -66,34 +119,6 @@ user.classList.add('user');
 drawUser();
 grid.appendChild(user);
 
-// Draw user
-function drawUser() {
-  user.style.left = currentPosition[0] + 'px';
-  user.style.bottom = currentPosition[1] + 'px';
-}
-
-// Draw Ball
-function drawBall() {
-  ball.style.left = ballCurrentPosition[0] + 'px';
-  ball.style.bottom = ballCurrentPosition[1] + 'px';
-}
-
-// Moving user
-function moveUser(e) {
-  switch (e.key) {
-    case 'ArrowLeft':
-      if (currentPosition[0] > 0) currentPosition[0] -= 10;
-      drawUser();
-      break;
-
-    case 'ArrowRight':
-      if (currentPosition[0] < boardWidth - blockWidth)
-        currentPosition[0] += 10;
-      drawUser();
-      break;
-  }
-}
-
 document.addEventListener('keydown', moveUser);
 
 // Add ball
@@ -102,15 +127,7 @@ ball.classList.add('ball');
 drawBall();
 grid.appendChild(ball);
 
-// Move Ball
-function moveBall() {
-  ballCurrentPosition[0] += xDirection;
-  ballCurrentPosition[1] += yDirection;
-  drawBall();
-  checkCollide();
-}
-
-timerId = setInterval(moveBall, 30);
+// timerId = setInterval(moveBall, 30);
 
 // Collision checker
 function checkCollide() {
@@ -204,6 +221,9 @@ function checkCollide() {
   }
 }
 
+/**
+ * Reverses the direction of the ball using inversion.
+ */
 function changeDirection() {
   xDirection *= -1;
   yDirection *= -1;
