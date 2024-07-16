@@ -1,53 +1,96 @@
-# PKs Breakout Game
+# Breakout Game
 
-<br>
+A modern and addictive Breakout game built with JavaScript, HTML, and CSS. This game features increasing difficulty with each level, smooth controls, and a stylish MaterialUI-inspired design.
 
-## Overview
+## Table of Contents
 
-PKs Breakout Game is a modern take on the classic arcade game, _Breakout_. Developed only using HTML, CSS, and vanilla JavaScript, this game challenges players to break blocks by bouncing a ball off a paddle they control. With each level, the game increases in speed and difficulty, testing the player's reflexes and strategy.
+- [Demo](#demo)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Gameplay](#gameplay)
+- [Technologies Used](#technologies-used)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+## Demo
+
+You can play the game [here](https://pkbreakout.netlify.app).
 
 ## Features
 
-Dynamic Levels: Each level increases in difficulty, challenging the player to adapt and improve.
-Responsive Design: Playable on both desktop and mobile devices with touch and keyboard controls.
-Score Tracking: Keeps track of the player's score, displaying it in real-time.
-Level Progression: Displays the current level, with each new level introducing more blocks to break.
-Game Over Detection: Alerts the player when the game is over and allows them to restart or submit their score.
-How to Play
-Start the Game: The game starts automatically upon loading the page. The ball begins moving, and it's your job to prevent it from falling off the bottom of the screen.
-Control the Paddle: Use the left and right arrow keys on your keyboard to move the paddle. On mobile devices, use the touch controls displayed on the screen.
-Break Blocks: Direct the ball to collide with blocks, breaking them and earning points.
-Advance Levels: Once all blocks are cleared, the game advances to the next level with increased difficulty.
-Avoid Losing the Ball: If the ball falls below the paddle, the game ends. The game also ends if the ball gets stuck in a loop; in this case, manually restart the game.
-Installation
-No installation is required. Simply open the index.html file in a modern web browser to start playing.
+- **Dynamic Levels**: Each level increases in difficulty, challenging the player to adapt and improve.
+- **Responsive Design**: Playable on both desktop and mobile devices with touch and keyboard controls (_hey I said playable_).
+- **Score Tracking**: Keeps track of the player's score, displaying it in real-time.
+- **Level Progression**: Displays the current level, with each new level introducing more blocks to break.
+- **Game Over Detection**: Alerts the player when the game is over and allows them to restart or submit their score.
 
-Technologies Used
-HTML5: For structuring the game's interface.
-CSS3: For styling the game's appearance.
-JavaScript (ES6): For game logic and interactivity.
-Screenshots
-Gameplay Screenshot
+## Installation
 
-Note: Replace path/to/gameplay_screenshot.png with the actual path to your screenshot.
+To run this project locally, follow these steps:
 
-Contributing
-Contributions to the Breakout Game are welcome! Please follow these steps to contribute:
+1. Clone the repository:
 
-Fork the repository.
-Create a new branch for your feature (git checkout -b feature/AmazingFeature).
-Commit your changes (git commit -m 'Add some AmazingFeature').
-Push to the branch (git push origin feature/AmazingFeature).
-Open a pull request.
-License
-Distributed under the MIT License. See LICENSE for more information.
+   ```bash
+   git clone https://github.com/yourusername/breakout-game.git
+   ```
 
-Contact
-Your Name - @your_twitter - email@example.com
+2. Navigate to the project directory:
 
-Project Link: https://github.com/your_username/breakout-game
+   ```bash
+   cd breakout-game
+   ```
 
-Acknowledgments
-Font Awesome for the icons used in the touch controls.
-Normalize.css for CSS reset.
-All the classic arcade games that inspired this project.
+3. Open `index.html` in your favorite web browser.
+
+## How to Play
+
+1. **Start the Game**: For now, the game starts automatically upon loading the page. The ball will begin moving, and it's your job to prevent it from falling off the bottom of the screen, so keep up!
+
+2. **Control the Paddle**: Use the left and right arrow keys on your keyboard to move the paddle. On mobile devices, use the touch controls displayed on the screen.
+
+3. **Break Blocks**: Direct the ball to collide with blocks, breaking them and earning points.
+
+4. **Advance Levels**: Once all blocks are cleared, the game advances to the next level with increased difficulty.
+
+5. **Avoid dropping the Ball**: If the ball falls below the paddle, the game ends. The game will also end if the ball gets stuck in a loop; in this case, manually restart the game by refreshing your page until I fix it.
+
+## Technologies Used
+
+- **HTML**: For structuring the game's interface.
+- **CSS3**: For styling the game's appearance.
+- **JavaScript (ES6)**: For game logic and interactivity.
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature-name`.
+3. Commit your changes: `git commit -m 'Add some feature'`.
+4. Push to the branch: `git push origin feature/your-feature-name`.
+5. Open a pull request.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+- **Twitter**: [@PatKellyAUS](https://x.com/PatKellyAUS)
+  **Project Link**: [PKs Breakout Game](https://github.com/Praeda822/pkbreakoutgame)
+
+---
+
+## Acknowledgements
+
+- [Font Awesome](https://fontawesome.com)
+- [Ania Kubów with freeCodeCamp.org](https://www.youtube.com/aniakubow) for her amazing tutorials
+- All those wicked cool old-school boomer arcade games that I used to play when I was a kid
+
+Thank you for checking out my Breakout game! Feel free to reach out if you have any questions or feedback. Happy playing!
+
+---
