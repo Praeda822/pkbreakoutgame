@@ -44,20 +44,20 @@ class BreakoutGame {
   createBlocks() {
     return [
       new Block(10, 270),
-      //   new Block(120, 270),
-      //   new Block(230, 270),
-      //   new Block(340, 270),
-      //   new Block(450, 270),
-      //   new Block(10, 240),
-      //   new Block(120, 240),
-      //   new Block(230, 240),
-      //   new Block(340, 240),
-      //   new Block(450, 240),
-      //   new Block(10, 210),
-      //   new Block(120, 210),
-      //   new Block(230, 210),
-      //   new Block(340, 210),
-      //   new Block(450, 210),
+      new Block(120, 270),
+      new Block(230, 270),
+      new Block(340, 270),
+      new Block(450, 270),
+      new Block(10, 240),
+      new Block(120, 240),
+      new Block(230, 240),
+      new Block(340, 240),
+      new Block(450, 240),
+      new Block(10, 210),
+      new Block(120, 210),
+      new Block(230, 210),
+      new Block(340, 210),
+      new Block(450, 210),
     ];
   }
 
@@ -72,7 +72,9 @@ class BreakoutGame {
   }
 
   mkBlocks() {
-    this.grid.innerHTML = ''; // Clear existing blocks and user, ball
+    const blocks = this.createBlocks();
+    this.grid.innerHTML = ''; // Clear existing blocks, user, and ball
+
     for (let i = 0; i < this.blocks.length; i++) {
       const block = document.createElement('div');
       block.classList.add('block');
@@ -253,8 +255,8 @@ class BreakoutGame {
     this.levelDisplay.innerHTML = this.level;
 
     // Increase speed
-    this.ballSpeed = Math.max(4, this.ballSpeed - 0.2);
-    this.userSpeed = Math.min(50, this.userSpeed + 5);
+    this.ballSpeed = Math.max(2, this.ballSpeed - 0.9);
+    this.userSpeed = Math.min(50, this.userSpeed + 2.5);
 
     // Reset ball and user positions
     clearInterval(this.timerId);
@@ -268,7 +270,7 @@ class BreakoutGame {
     this.mkBlocks();
 
     // Restart ball movement with new speed
-    // this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
+    this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
   }
 
   showGameOverPopup() {
@@ -354,6 +356,10 @@ class BreakoutGame {
     this.currentPosition = [...this.userStart];
     this.scoreDisplay.innerHTML = this.score;
     this.levelDisplay.innerHTML = this.level;
+
+    // Create new blocks for the game restart
+    this.blocks = this.createBlocks();
+    this.mkBlocks();
     this.startGame();
   }
 }
