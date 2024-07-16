@@ -18,6 +18,10 @@ let currentPosition = userStart;
 const ballStart = [270, 40];
 let ballCurrentPosition = ballStart;
 
+/**
+ * Represents a block in the game.
+ * @class
+ */
 class Block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
@@ -27,6 +31,10 @@ class Block {
   }
 }
 
+/**
+ * Array of Block objects representing the game blocks.
+ * @type {Block[]}
+ */
 const blocks = [
   // x axis top row
   new Block(10, 270),
@@ -48,7 +56,54 @@ const blocks = [
   new Block(450, 210),
 ];
 
-// Add my blocks
+/**
+ * Draws the user on the screen at the current position.
+ */
+function drawUser() {
+  user.style.left = currentPosition[0] + 'px';
+  user.style.bottom = currentPosition[1] + 'px';
+}
+
+/**
+ * Draws the ball on the screen at the current position.
+ */
+function drawBall() {
+  ball.style.left = ballCurrentPosition[0] + 'px';
+  ball.style.bottom = ballCurrentPosition[1] + 'px';
+}
+
+/**
+ * Moves the user based on the key pressed.
+ * @param {KeyboardEvent} e - The keyboard event object.
+ */
+function moveUser(e) {
+  switch (e.key) {
+    case 'ArrowLeft':
+      if (currentPosition[0] > 0) currentPosition[0] -= 10;
+      drawUser();
+      break;
+
+    case 'ArrowRight':
+      if (currentPosition[0] < boardWidth - blockWidth)
+        currentPosition[0] += 10;
+      drawUser();
+      break;
+  }
+}
+
+/**
+ * Moves the ball by updating its current position and then calls the drawBall() & checkCollide() functions respectively to draw the ball and check for collisions.
+ */
+function moveBall() {
+  ballCurrentPosition[0] += xDirection;
+  ballCurrentPosition[1] += yDirection;
+  drawBall();
+  checkCollide();
+}
+
+/**
+ * Creates and appends blocks to the grid.
+ */
 const mkBlocks = function () {
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement('div');
@@ -66,34 +121,6 @@ user.classList.add('user');
 drawUser();
 grid.appendChild(user);
 
-// Draw user
-function drawUser() {
-  user.style.left = currentPosition[0] + 'px';
-  user.style.bottom = currentPosition[1] + 'px';
-}
-
-// Draw Ball
-function drawBall() {
-  ball.style.left = ballCurrentPosition[0] + 'px';
-  ball.style.bottom = ballCurrentPosition[1] + 'px';
-}
-
-// Moving user
-function moveUser(e) {
-  switch (e.key) {
-    case 'ArrowLeft':
-      if (currentPosition[0] > 0) currentPosition[0] -= 10;
-      drawUser();
-      break;
-
-    case 'ArrowRight':
-      if (currentPosition[0] < boardWidth - blockWidth)
-        currentPosition[0] += 10;
-      drawUser();
-      break;
-  }
-}
-
 document.addEventListener('keydown', moveUser);
 
 // Add ball
@@ -102,108 +129,109 @@ ball.classList.add('ball');
 drawBall();
 grid.appendChild(ball);
 
-// Move Ball
-function moveBall() {
-  ballCurrentPosition[0] += xDirection;
-  ballCurrentPosition[1] += yDirection;
-  drawBall();
-  checkCollide();
-}
-
-// timerId = setInterval(moveBall, 30);
+timerId = setInterval(moveBall, 30);
 
 // Collision checker
 function checkCollide() {
-  // Check for ball center
   const ballCenterX = ballCurrentPosition[0] + ballDiameter / 2;
   const ballCenterY = ballCurrentPosition[1] + ballDiameter / 2;
 
-  // Check for block collisions
   for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+
     if (
-      ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
-      ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
-      ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
-      ballCurrentPosition[1] < blocks[i].topLeft[1]
+      ballCurrentPosition[0] + ballDiameter > block.bottomLeft[0] &&
+      ballCurrentPosition[0] < block.bottomRight[0] &&
+      ballCurrentPosition[1] + ballDiameter > block.bottomLeft[1] &&
+      ballCurrentPosition[1] < block.topLeft[1]
     ) {
-      // Check for block collisions on CORNERS
-      const corners = [
-        blocks[i].bottomLeft,
-        blocks[i].bottomRight,
-        blocks[i].topLeft,
-        blocks[i].topRight,
-      ];
-      let cornerCollisionDetected = false;
-
-      for (const corner of corners) {
-        const distance = Math.sqrt(
-          Math.pow(corner[0] - ballCenterX, 2) +
-            Math.pow(corner[1] - ballCenterY, 2)
-        );
-        if (distance < ballDiameter / 2) {
-          cornerCollisionDetected = true;
-          break;
-        }
-      }
-
       const allBlocks = Array.from(document.querySelectorAll('.block'));
       allBlocks[i].classList.remove('block');
       blocks.splice(i, 1);
-      changeDirection();
       score++;
       scoreDisplay.innerHTML = score;
+
+      // Check if the collision is on the top or bottom of the block
+      const isBallAboveBlock =
+        ballCurrentPosition[1] + ballDiameter - yDirection <
+        block.bottomLeft[1];
+      const isBallBelowBlock =
+        ballCurrentPosition[1] - yDirection > block.topLeft[1];
+      const isBallLeftOfBlock =
+        ballCurrentPosition[0] + ballDiameter - xDirection <
+        block.bottomLeft[0];
+      const isBallRightOfBlock =
+        ballCurrentPosition[0] - xDirection > block.bottomRight[0];
+
+      // Change ball direction based on the collision side
+      if (isBallAboveBlock || isBallBelowBlock) {
+        yDirection *= -1;
+      }
+      if (isBallLeftOfBlock || isBallRightOfBlock) {
+        xDirection *= -1;
+      }
+
+      // Prevent the ball from getting stuck by adjusting its position
+      if (isBallAboveBlock) {
+        ballCurrentPosition[1] = block.bottomLeft[1] - ballDiameter;
+      } else if (isBallBelowBlock) {
+        ballCurrentPosition[1] = block.topLeft[1];
+      }
+      if (isBallLeftOfBlock) {
+        ballCurrentPosition[0] = block.bottomLeft[0] - ballDiameter;
+      } else if (isBallRightOfBlock) {
+        ballCurrentPosition[0] = block.bottomRight[0];
+      }
+
       break;
     }
   }
+
   // Check for wall collisions
   if (
     ballCurrentPosition[0] >= boardWidth - ballDiameter ||
     ballCurrentPosition[0] <= 0
   ) {
-    console.log('Hoirzontal boing');
     xDirection *= -1;
   }
   if (
     ballCurrentPosition[1] >= boardHeight - ballDiameter ||
     ballCurrentPosition[1] <= 0
   ) {
-    console.log('Vertical boing');
     yDirection *= -1;
   }
 
-  // Checks for user collisions
+  // Check for user collisions
   if (
-    ballCurrentPosition[0] > currentPosition[0] &&
+    ballCurrentPosition[0] + ballDiameter > currentPosition[0] &&
     ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
-    ballCurrentPosition[1] > currentPosition[1] &&
+    ballCurrentPosition[1] + ballDiameter > currentPosition[1] &&
     ballCurrentPosition[1] < currentPosition[1] + blockHeight
   ) {
-    console.log('User boing');
-
-    // Ball collision on dodgy corners
-    const ballHitPosition = ballCurrentPosition[0] - currentPosition[0];
-    // Ensure ball moves left
-    if (ballHitPosition < blockWidth / 2) {
-      xDirection = -Math.abs(xDirection);
-      // Ensure ball moves right
-    } else {
-      xDirection = Math.abs(xDirection);
-    }
     yDirection *= -1;
 
-    // Stop ball getting stuck
+    // Adjust ball position to prevent getting stuck
     ballCurrentPosition[1] = currentPosition[1] + blockHeight + 1;
   }
 
-  // Checks for game over
+  // Check for game over
   if (ballCurrentPosition[1] <= 0) {
     clearInterval(timerId);
-    console.log('YOU LOSE');
     scoreDisplay.innerHTML = 'YOU LOSE';
+    document.removeEventListener('keydown', moveUser);
+  }
+
+  // Check for game win
+  if (blocks.length === 0) {
+    scoreDisplay.innerHTML = 'YOU WIN';
+    clearInterval(timerId);
     document.removeEventListener('keydown', moveUser);
   }
 }
 
+/**
+ * Reverses the direction of the ball using inversion.
+ */
 function changeDirection() {
   xDirection *= -1;
   yDirection *= -1;
