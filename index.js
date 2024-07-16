@@ -3,9 +3,18 @@
 const grid = document.querySelector('.grid');
 const blockWidth = 100;
 const blockHeight = 20;
+const ballDiameter = 20;
+const boardWidth = 560;
+const boardHeight = 300;
+let timerId;
+let xDirection = 2;
+let yDirection = 2;
 
 const userStart = [230, 10];
 let currentPosition = userStart;
+
+const ballStart = [270, 40];
+let ballCurrentPosition = ballStart;
 
 class Block {
   constructor(xAxis, yAxis) {
@@ -37,6 +46,7 @@ const blocks = [
   new Block(450, 210),
 ];
 
+// Add my blocks
 const mkBlocks = function () {
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement('div');
@@ -60,19 +70,72 @@ function drawUser() {
   user.style.bottom = currentPosition[1] + 'px';
 }
 
+// Draw Ball
+function drawBall() {
+  ball.style.left = ballCurrentPosition[0] + 'px';
+  ball.style.bottom = ballCurrentPosition[1] + 'px';
+}
+
 // Moving user
 function moveUser(e) {
   switch (e.key) {
     case 'ArrowLeft':
-      currentPosition[0] -= 10;
+      if (currentPosition[0] > 0) currentPosition[0] -= 10;
       drawUser();
       break;
 
     case 'ArrowRight':
-      currentPosition[0] += 10;
+      if (currentPosition[0] < boardWidth - blockWidth)
+        currentPosition[0] += 10;
       drawUser();
       break;
   }
 }
 
 document.addEventListener('keydown', moveUser);
+
+// Add ball
+const ball = document.createElement('div');
+ball.classList.add('ball');
+drawBall();
+grid.appendChild(ball);
+
+// Move Ball
+function moveBall() {
+  ballCurrentPosition[0] += xDirection;
+  ballCurrentPosition[1] += yDirection;
+  drawBall();
+  checkCollide();
+}
+
+// timerId = setInterval(moveBall, 30);
+
+// Collision checker
+function checkCollide() {
+  // Check for wall collisions
+  if (
+    currentPosition[0] >= boardWidth - ballDiameter ||
+    ballCurrentPosition[1] >= boardHeight - ballDiameter
+  ) {
+    changeDirection();
+  }
+}
+
+function changeDirection() {
+  if (xDirection === 2 && yDirection === 2) {
+    yDirection = -2;
+    return;
+  }
+  if (xDirection === 2 && yDirection === -2) {
+    xDirection = -2;
+    return;
+  }
+  if (xDirection === -2 && yDirection === -2) {
+    yDirection = 2;
+    return;
+  }
+  if (xDirection === -2 && yDirection === 2) {
+    xDirection = 2;
+    return;
+  }
+}
