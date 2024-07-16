@@ -33,13 +33,13 @@ To run this project locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/breakout-game.git
+   git clone https://github.com/Praeda822/pkbreakoutgame.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd breakout-game
+   cd pkbreakoutgame
    ```
 
 3. Open `index.html` in your favorite web browser.
@@ -66,13 +66,33 @@ To run this project locally, follow these steps:
 
 Contributions are welcome! Please follow these steps:
 
-1. Fork the repository.
-2. Create a new branch: `git checkout -b feature/your-feature-name`.
-3. Commit your changes: `git commit -m 'Add some feature'`.
-4. Push to the branch: `git push origin feature/your-feature-name`.
-5. Open a pull request.
+1. Fork the repository:
 
-Please make sure to update tests as appropriate.
+   ```bash
+   git fork https://github.com/Praeda822/pkbreakoutgame.git
+   ```
+
+2. Create a new branch:
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. Commit your changes:
+
+   ```bash
+   git commit -m 'Add some feature'
+   ```
+
+4. Push to the branch:
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. Open a pull request on the GitHub repository.
+
+Please make sure to update tests as appropriate (_lmao test deez_)
 
 ## License
 
