@@ -268,7 +268,7 @@ class BreakoutGame {
     this.mkBlocks();
 
     // Restart ball movement with new speed
-    this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
+    // this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
   }
 
   showGameOverPopup() {
@@ -303,8 +303,46 @@ class BreakoutGame {
   }
 
   submitScore(score) {
-    console.log(`Score submitted: ${score}`);
+    // Prompt the user for their name
+    const name = prompt('Enter your name:');
+
+    // If the user does not enter a name, do not submit the score
+    if (!name) {
+      alert('Score not submitted! Please enter a name.');
+      return;
+    }
+
+    // Retrieve high scores from localStorage, or initialize an empty array if none exist
+    const highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    // Add the new score to the high scores array
+    highScores.push({ name: name, score: score });
+    // Sort high scores in descending order
+    highScores.sort((a, b) => b.score - a.score);
+    // Keep only the top 5 scores
+    highScores.splice(5);
+    // Store the updated high scores array in localStorage
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+    // Update the scoreboard with the new high scores
+    this.updateScoreboard(highScores);
+    // Notify the user that their score has been submitted
     alert('Score submitted!');
+  }
+
+  updateScoreboard(highScores) {
+    // Select the scoreboard element
+    const scoreboard = document.getElementById('scoreboard');
+    // Update the scoreboard with the high scores
+    scoreboard.innerHTML = `
+      <div class="scoreboard__title">High Scores</div>
+      <ul class="scoreboard__list">
+        ${highScores
+          .map(
+            entry =>
+              `<li class="scoreboard__item">${entry.name}: ${entry.score}</li>`
+          )
+          .join('')}
+      </ul>
+    `;
   }
 
   resetGame() {
