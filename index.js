@@ -1,6 +1,7 @@
 'use strict';
 
 const grid = document.querySelector('.grid');
+const scoreDisplay = document.querySelector('#score');
 const blockWidth = 100;
 const blockHeight = 20;
 const ballDiameter = 20;
@@ -108,34 +109,36 @@ function moveBall() {
   checkCollide();
 }
 
-// timerId = setInterval(moveBall, 30);
+timerId = setInterval(moveBall, 30);
 
 // Collision checker
 function checkCollide() {
   // Check for wall collisions
   if (
-    currentPosition[0] >= boardWidth - ballDiameter ||
-    ballCurrentPosition[1] >= boardHeight - ballDiameter
+    ballCurrentPosition[0] >= boardWidth - ballDiameter ||
+    ballCurrentPosition[0] <= 0
   ) {
-    changeDirection();
+    console.log('Hoirzontal boing');
+    xDirection *= -1;
+  }
+  if (
+    ballCurrentPosition[1] >= boardHeight - ballDiameter ||
+    ballCurrentPosition[1] <= 0
+  ) {
+    console.log('Vertical boing');
+    yDirection *= -1;
+  }
+
+  // Checks for game over
+  if (ballCurrentPosition[1] <= 0) {
+    clearInterval(timerId);
+    console.log('YOU LOSE');
+    scoreDisplay.innerHTML = 'YOU LOSE';
+    document.removeEventListener('keydown', moveUser);
   }
 }
 
 function changeDirection() {
-  if (xDirection === 2 && yDirection === 2) {
-    yDirection = -2;
-    return;
-  }
-  if (xDirection === 2 && yDirection === -2) {
-    xDirection = -2;
-    return;
-  }
-  if (xDirection === -2 && yDirection === -2) {
-    yDirection = 2;
-    return;
-  }
-  if (xDirection === -2 && yDirection === 2) {
-    xDirection = 2;
-    return;
-  }
+  xDirection *= -1;
+  yDirection *= -1;
 }
