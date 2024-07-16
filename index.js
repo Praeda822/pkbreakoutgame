@@ -101,7 +101,9 @@ function moveBall() {
   checkCollide();
 }
 
-// Add my blocks
+/**
+ * Creates and appends blocks to the grid.
+ */
 const mkBlocks = function () {
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement('div');
@@ -127,92 +129,86 @@ ball.classList.add('ball');
 drawBall();
 grid.appendChild(ball);
 
-// timerId = setInterval(moveBall, 30);
+timerId = setInterval(moveBall, 30);
 
-// Collision checker
 function checkCollide() {
-  // Check for ball center
-  const ballCenterX = ballCurrentPosition[0] + ballDiameter / 2;
-  const ballCenterY = ballCurrentPosition[1] + ballDiameter / 2;
+  checkBlockCollisions();
+  checkWallCollisions();
+  checkUserCollision();
+  checkGameOver();
+}
 
-  // Check for block collisions
-  for (let i = 0; i < blocks.length; i++) {
-    if (
-      ballCurrentPosition[0] > blocks[i].bottomLeft[0] &&
-      ballCurrentPosition[0] < blocks[i].bottomRight[0] &&
-      ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
-      ballCurrentPosition[1] < blocks[i].topLeft[1]
-    ) {
-      // Check for block collisions on CORNERS
-      const corners = [
-        blocks[i].bottomLeft,
-        blocks[i].bottomRight,
-        blocks[i].topLeft,
-        blocks[i].topRight,
-      ];
-      let cornerCollisionDetected = false;
-
-      for (const corner of corners) {
-        const distance = Math.sqrt(
-          Math.pow(corner[0] - ballCenterX, 2) +
-            Math.pow(corner[1] - ballCenterY, 2)
-        );
-        if (distance < ballDiameter / 2) {
-          cornerCollisionDetected = true;
-          break;
-        }
-      }
-
-      const allBlocks = Array.from(document.querySelectorAll('.block'));
-      allBlocks[i].classList.remove('block');
-      blocks.splice(i, 1);
+/**
+ * Handles collision between the ball and blocks.
+ */
+function checkBlockCollisions() {
+  for (let index = blocks.length - 1; index >= 0; index--) {
+    const block = blocks[index];
+    if (isColliding(ballCurrentPosition, block)) {
+      blocks.splice(index, 1); // Removes block from array
       changeDirection();
       score++;
       scoreDisplay.innerHTML = score;
-      break;
+      document.querySelector(`.block[data-index="${index}"]`).remove(); // Remove block from DOM
     }
   }
-  // Check for wall collisions
+}
+
+/**
+ * Determines if the ball is colliding with a given block.
+ * @param {Array} ballPosition - The current position of the ball.
+ * @param {Block} block - The block to check for a collision.
+ * @returns {boolean} True if there is a collision, false otherwise.
+ */
+function isColliding(ballPosition, block) {
+  const [ballX, ballY] = ballPosition;
+  const withinXBounds =
+    ballX > block.bottomLeft[0] && ballX < block.bottomRight[0];
+  const withinYBounds = ballY > block.bottomLeft[1] && ballY < block.topLeft[1];
+  return withinXBounds && withinYBounds;
+}
+
+/**
+ * Checks for collisions between the ball and the walls.
+ */
+function checkWallCollisions() {
   if (
     ballCurrentPosition[0] >= boardWidth - ballDiameter ||
     ballCurrentPosition[0] <= 0
   ) {
-    console.log('Hoirzontal boing');
     xDirection *= -1;
   }
   if (
     ballCurrentPosition[1] >= boardHeight - ballDiameter ||
     ballCurrentPosition[1] <= 0
   ) {
-    console.log('Vertical boing');
     yDirection *= -1;
   }
+}
 
-  // Checks for user collisions
+/**
+ * Checks for a collision between the ball and the user.
+ */
+function checkUserCollision() {
   if (
-    ballCurrentPosition[0] > currentPosition[0] &&
-    ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
-    ballCurrentPosition[1] > currentPosition[1] &&
-    ballCurrentPosition[1] < currentPosition[1] + blockHeight
+    isColliding(ballCurrentPosition, {
+      bottomLeft: currentPosition,
+      bottomRight: [currentPosition[0] + blockWidth, currentPosition[1]],
+      topLeft: [currentPosition[0], currentPosition[1] + blockHeight],
+      topRight: [
+        currentPosition[0] + blockWidth,
+        currentPosition[1] + blockHeight,
+      ],
+    })
   ) {
-    console.log('User boing');
-
-    // Ball collision on dodgy corners
-    const ballHitPosition = ballCurrentPosition[0] - currentPosition[0];
-    // Ensure ball moves left
-    if (ballHitPosition < blockWidth / 2) {
-      xDirection = -Math.abs(xDirection);
-      // Ensure ball moves right
-    } else {
-      xDirection = Math.abs(xDirection);
-    }
-    yDirection *= -1;
-
-    // Stop ball getting stuck
-    ballCurrentPosition[1] = currentPosition[1] + blockHeight + 1;
+    changeDirection();
   }
+}
 
-  // Checks for game over
+/**
+ * Checks if the game is over (ball hits the bottom of the screen).
+ */
+function checkGameOver() {
   if (ballCurrentPosition[1] <= 0) {
     clearInterval(timerId);
     console.log('YOU LOSE');
