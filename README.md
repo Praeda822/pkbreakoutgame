@@ -7,12 +7,12 @@ A modern and addictive Breakout game built with JavaScript, HTML, and CSS. This 
 - [Demo](#demo)
 - [Features](#features)
 - [Installation](#installation)
-- [Usage](#usage)
-- [Gameplay](#gameplay)
+- [How to Play](#howtoplay)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+- [Acknowledgements](#acknowledgements)
 
 ## Demo
 
