@@ -233,6 +233,7 @@ class BreakoutGame {
     if (this.ballCurrentPosition[1] <= 0) {
       clearInterval(this.timerId);
       this.scoreDisplay.innerHTML = 'YOU LOSE';
+      this.showGameOverPopup();
       document.removeEventListener('keydown', this.moveUser.bind(this));
     }
 
@@ -290,7 +291,6 @@ class BreakoutGame {
     submitScoreButton.classList.add('popup__button');
     submitScoreButton.textContent = 'Submit Score';
     submitScoreButton.addEventListener('click', () => {
-      // Placeholder for score submission logic
       alert('Score submitted!');
       popup.remove();
       this.resetGame();
