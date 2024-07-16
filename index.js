@@ -2,6 +2,7 @@
 
 const grid = document.querySelector('.grid');
 const scoreDisplay = document.querySelector('#score');
+const levelDisplay = document.querySelector('#level');
 const blockWidth = 100;
 const blockHeight = 20;
 const ballDiameter = 20;
@@ -11,7 +12,9 @@ let timerId;
 let xDirection = 2;
 let yDirection = 2;
 let score = 0;
-
+let level = 1;
+let ballSpeed = 30;
+let userSpeed = 10;
 const userStart = [230, 10];
 let currentPosition = userStart;
 
@@ -37,23 +40,23 @@ class Block {
  */
 const blocks = [
   // x axis top row
-  new Block(10, 270),
-  new Block(120, 270),
-  new Block(230, 270),
-  new Block(340, 270),
-  new Block(450, 270),
+  //   new Block(10, 270),
+  //   new Block(120, 270),
+  //   new Block(230, 270),
+  //   new Block(340, 270),
+  //   new Block(450, 270),
   // y axis upper-middle row
   new Block(10, 240),
-  new Block(120, 240),
-  new Block(230, 240),
-  new Block(340, 240),
-  new Block(450, 240),
-  // y axis lower-middle row
-  new Block(10, 210),
-  new Block(120, 210),
-  new Block(230, 210),
-  new Block(340, 210),
-  new Block(450, 210),
+  //   new Block(120, 240),
+  //   new Block(230, 240),
+  //   new Block(340, 240),
+  //   new Block(450, 240),
+  // y axis bottom row
+  //   new Block(10, 210),
+  //   new Block(120, 210),
+  //   new Block(230, 210),
+  //   new Block(340, 210),
+  //   new Block(450, 210),
 ];
 
 // Draw user
@@ -70,6 +73,7 @@ function drawBall() {
 
 // Add my blocks
 const mkBlocks = function () {
+  grid.innerHTML = ''; // Clear existing blocks
   for (let i = 0; i < blocks.length; i++) {
     const block = document.createElement('div');
     block.classList.add('block');
@@ -210,9 +214,34 @@ function checkCollide() {
     scoreDisplay.innerHTML = 'YOU LOSE';
     document.removeEventListener('keydown', moveUser);
   }
+  // Checks for game over
+  if (blocks.length === 0) {
+    scoreDisplay.innerHTML = 'YOU WIN';
+    // newLevel();
+  }
 }
 
 function changeDirection() {
   xDirection *= -1;
   yDirection *= -1;
 }
+
+// function newLevel() {
+//   level++;
+//   levelDisplay.innerHTML = level;
+
+//   // Increase speed
+//   ballSpeed = Math.max(10, ballSpeed - 5);
+//   userSpeed = Math.min(20, userSpeed + 1);
+
+//   // Reset ball and user positions
+//   clearInterval(timerId);
+//   ballCurrentPosition = [...ballStart];
+//   currentPosition = [...userStart];
+//   drawBall();
+//   drawUser();
+
+//   mkBlocks();
+
+//   timerId = setInterval(moveBall, ballSpeed);
+// }
