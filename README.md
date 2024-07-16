@@ -5,6 +5,7 @@ A modern and addictive Breakout game built with JavaScript, HTML, and CSS. This 
 ## Table of Contents
 
 - [Demo](#demo)
+- [ToDo](#todo)
 - [Features](#features)
 - [Installation](#installation)
 - [How to Play](#howtoplay)
@@ -17,6 +18,14 @@ A modern and addictive Breakout game built with JavaScript, HTML, and CSS. This 
 ## Demo
 
 You can play the game [here](https://pkbreakout.netlify.app).
+
+## ToDo:
+
+- Make the game mobile responsive
+- Stop the annoying zoom on phones when you're tapping the ass out of the buttons
+- Tidy up the CSS, decide on an official _theme_, so to speak (_I'm lowkey an artsy kinda dude it's a pisces thing lol_)
+- Implement that cool _InnitToWinnit_ idea I had for the game difficulty like Lauren was saying
+- Review the speed & timings with some other people _just in case_ they're still off...
 
 ## Features
 
@@ -109,6 +118,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 - [Font Awesome](https://fontawesome.com)
 - [Ania Kubów with freeCodeCamp.org](https://www.youtube.com/aniakubow) for her amazing tutorials
+- [Jonas Schmedtmann](https://codingheroes.io/) for teaching me how to write Javascript and for the punishment involved in learning ES6 and OOP for the first time through the Javascript lens
 - All those wicked cool old-school boomer arcade games that I used to play when I was a kid
 
 Thank you for checking out my Breakout game! Feel free to reach out if you have any questions or feedback. Happy playing!
