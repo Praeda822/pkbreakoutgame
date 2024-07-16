@@ -10,6 +10,7 @@ const boardHeight = 300;
 let timerId;
 let xDirection = 2;
 let yDirection = 2;
+let score = 0;
 
 const userStart = [230, 10];
 let currentPosition = userStart;
@@ -122,7 +123,12 @@ function checkCollide() {
       ballCurrentPosition[1] < blocks[i].topLeft[1]
     ) {
       const allBlocks = Array.from(document.querySelectorAll('.block'));
-      console.log(allBlocks);
+      allBlocks[i].classList.remove('block');
+      blocks.splice(i, 1);
+      changeDirection();
+      score++;
+      scoreDisplay.innerHTML = score;
+      break;
     }
   }
   // Check for wall collisions
@@ -139,6 +145,30 @@ function checkCollide() {
   ) {
     console.log('Vertical boing');
     yDirection *= -1;
+  }
+
+  // Checks for user collisions
+  if (
+    ballCurrentPosition[0] > currentPosition[0] &&
+    ballCurrentPosition[0] < currentPosition[0] + blockWidth &&
+    ballCurrentPosition[1] > currentPosition[1] &&
+    ballCurrentPosition[1] < currentPosition[1] + blockHeight
+  ) {
+    console.log('User boing');
+
+    // Ball collision on dodgy corners
+    const ballHitPosition = ballCurrentPosition[0] - currentPosition[0];
+    // Ensure ball moves left
+    if (ballHitPosition < blockWidth / 2) {
+      xDirection = -Math.abs(xDirection);
+      // Ensure ball moves right
+    } else {
+      xDirection = Math.abs(xDirection);
+    }
+    yDirection *= -1;
+
+    // Stop ball getting stuck
+    ballCurrentPosition[1] = currentPosition[1] + blockHeight + 1;
   }
 
   // Checks for game over
