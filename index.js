@@ -114,6 +114,10 @@ timerId = setInterval(moveBall, 30);
 
 // Collision checker
 function checkCollide() {
+  // Check for ball center
+  const ballCenterX = ballCurrentPosition[0] + ballDiameter / 2;
+  const ballCenterY = ballCurrentPosition[1] + ballDiameter / 2;
+
   // Check for block collisions
   for (let i = 0; i < blocks.length; i++) {
     if (
@@ -122,6 +126,26 @@ function checkCollide() {
       ballCurrentPosition[1] + ballDiameter > blocks[i].bottomLeft[1] &&
       ballCurrentPosition[1] < blocks[i].topLeft[1]
     ) {
+      // Check for block collisions on CORNERS
+      const corners = [
+        blocks[i].bottomLeft,
+        blocks[i].bottomRight,
+        blocks[i].topLeft,
+        blocks[i].topRight,
+      ];
+      let cornerCollisionDetected = false;
+
+      for (const corner of corners) {
+        const distance = Math.sqrt(
+          Math.pow(corner[0] - ballCenterX, 2) +
+            Math.pow(corner[1] - ballCenterY, 2)
+        );
+        if (distance < ballDiameter / 2) {
+          cornerCollisionDetected = true;
+          break;
+        }
+      }
+
       const allBlocks = Array.from(document.querySelectorAll('.block'));
       allBlocks[i].classList.remove('block');
       blocks.splice(i, 1);
