@@ -37,6 +37,7 @@ class BreakoutGame {
     this.grid.appendChild(this.ball);
 
     document.addEventListener('keydown', this.moveUser.bind(this));
+    this.addTouchControls();
     this.startGame();
   }
 
@@ -98,6 +99,33 @@ class BreakoutGame {
         this.drawUser();
         break;
     }
+  }
+
+  addTouchControls() {
+    const leftButton = document.createElement('div');
+    leftButton.classList.add('touch-control', 'touch-control--left');
+    leftButton.innerHTML = '&larr;';
+
+    const rightButton = document.createElement('div');
+    rightButton.classList.add('touch-control', 'touch-control--right');
+    rightButton.innerHTML = '&rarr;';
+
+    document.body.appendChild(leftButton);
+    document.body.appendChild(rightButton);
+
+    leftButton.addEventListener('touchstart', () => {
+      if (this.currentPosition[0] > 0) {
+        this.currentPosition[0] -= this.userSpeed;
+        this.drawUser();
+      }
+    });
+
+    rightButton.addEventListener('touchstart', () => {
+      if (this.currentPosition[0] < this.boardWidth - this.blockWidth) {
+        this.currentPosition[0] += this.userSpeed;
+        this.drawUser();
+      }
+    });
   }
 
   moveBall() {
@@ -240,6 +268,50 @@ class BreakoutGame {
 
     // Restart ball movement with new speed
     this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
+  }
+
+  showGameOverPopup() {
+    const popup = document.createElement('div');
+    popup.classList.add('popup');
+
+    const message = document.createElement('div');
+    message.classList.add('popup__message');
+    message.textContent = `Game Over! Your score: ${this.score}`;
+
+    const playAgainButton = document.createElement('button');
+    playAgainButton.classList.add('popup__button');
+    playAgainButton.textContent = 'Play Again';
+    playAgainButton.addEventListener('click', () => {
+      popup.remove();
+      this.resetGame();
+    });
+
+    const submitScoreButton = document.createElement('button');
+    submitScoreButton.classList.add('popup__button');
+    submitScoreButton.textContent = 'Submit Score';
+    submitScoreButton.addEventListener('click', () => {
+      // Placeholder for score submission logic
+      alert('Score submitted!');
+      popup.remove();
+      this.resetGame();
+    });
+
+    popup.appendChild(message);
+    popup.appendChild(playAgainButton);
+    popup.appendChild(submitScoreButton);
+    document.body.appendChild(popup);
+  }
+
+  resetGame() {
+    this.score = 0;
+    this.level = 1;
+    this.ballSpeed = 8;
+    this.userSpeed = 25;
+    this.ballCurrentPosition = [...this.ballStart];
+    this.currentPosition = [...this.userStart];
+    this.scoreDisplay.innerHTML = this.score;
+    this.levelDisplay.innerHTML = this.level;
+    this.startGame();
   }
 }
 
