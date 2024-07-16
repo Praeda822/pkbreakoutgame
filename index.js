@@ -17,8 +17,8 @@ class BreakoutGame {
     this.yDirection = 2;
     this.score = 0;
     this.level = 1;
-    this.ballSpeed = 15;
-    this.userSpeed = 20;
+    this.ballSpeed = 8;
+    this.userSpeed = 25;
 
     this.userStart = [230, 10];
     this.currentPosition = [...this.userStart];
@@ -43,20 +43,20 @@ class BreakoutGame {
   createBlocks() {
     return [
       new Block(10, 270),
-      new Block(120, 270),
-      new Block(230, 270),
-      new Block(340, 270),
-      new Block(450, 270),
-      new Block(10, 240),
-      new Block(120, 240),
-      new Block(230, 240),
-      new Block(340, 240),
-      new Block(450, 240),
-      new Block(10, 210),
-      new Block(120, 210),
-      new Block(230, 210),
-      new Block(340, 210),
-      new Block(450, 210),
+      //   new Block(120, 270),
+      //   new Block(230, 270),
+      //   new Block(340, 270),
+      //   new Block(450, 270),
+      //   new Block(10, 240),
+      //   new Block(120, 240),
+      //   new Block(230, 240),
+      //   new Block(340, 240),
+      //   new Block(450, 240),
+      //   new Block(10, 210),
+      //   new Block(120, 210),
+      //   new Block(230, 210),
+      //   new Block(340, 210),
+      //   new Block(450, 210),
     ];
   }
 
@@ -113,9 +113,6 @@ class BreakoutGame {
   }
 
   checkCollide() {
-    const ballCenterX = this.ballCurrentPosition[0] + this.ballDiameter / 2;
-    const ballCenterY = this.ballCurrentPosition[1] + this.ballDiameter / 2;
-
     // Check for block collisions
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
@@ -187,7 +184,19 @@ class BreakoutGame {
         this.currentPosition[1] &&
       this.ballCurrentPosition[1] < this.currentPosition[1] + this.blockHeight
     ) {
+      // Ball collision on dodgy corners
+      const ballHitPosition =
+        this.ballCurrentPosition[0] - this.currentPosition[0];
+      // Ensure ball moves left
+      if (ballHitPosition < this.blockWidth / 2) {
+        this.xDirection = -Math.abs(this.xDirection);
+        // Ensure ball moves right
+      } else {
+        this.xDirection = Math.abs(this.xDirection);
+      }
       this.yDirection *= -1;
+
+      // Stop ball getting stuck
       this.ballCurrentPosition[1] =
         this.currentPosition[1] + this.blockHeight + 1;
     }
@@ -215,8 +224,8 @@ class BreakoutGame {
     this.levelDisplay.innerHTML = this.level;
 
     // Increase speed
-    this.ballSpeed = Math.max(10, this.ballSpeed - 5);
-    this.userSpeed = Math.min(20, this.userSpeed + 1.5);
+    this.ballSpeed = Math.max(4, this.ballSpeed - 0.2);
+    this.userSpeed = Math.min(50, this.userSpeed + 5);
 
     // Reset ball and user positions
     clearInterval(this.timerId);
