@@ -13,12 +13,14 @@ class BreakoutGame {
     this.boardHeight = 300;
 
     this.timerId = null;
+    this.rowIntervalId = null;
     this.xDirection = 2;
     this.yDirection = 2;
     this.score = 0;
     this.level = 1;
     this.ballSpeed = 8;
     this.userSpeed = 25;
+    this.newRowInterval = 10000;
 
     this.userStart = [230, 10];
     this.currentPosition = [...this.userStart];
@@ -91,22 +93,10 @@ class BreakoutGame {
   moveUser(e) {
     switch (e.key) {
       case 'ArrowLeft':
-        if (this.currentPosition[0] > 0) {
-          this.currentPosition[0] -= this.userSpeed;
-        }
-        if (this.currentPosition[0] < 0) {
-          this.currentPosition[0] = 0 - '10px';
-        }
-        this.drawUser();
+        this.updateUserPosition(-this.userSpeed);
         break;
       case 'ArrowRight':
-        if (this.currentPosition[0] < this.boardWidth - this.blockWidth) {
-          this.currentPosition[0] += this.userSpeed;
-        }
-        if (this.currentPosition[0] > this.boardWidth - this.blockWidth) {
-          this.currentPosition[0] = this.boardWidth - this.blockWidth - '10px';
-        }
-        this.drawUser();
+        this.updateUserPosition(this.userSpeed);
         break;
     }
   }
@@ -124,18 +114,23 @@ class BreakoutGame {
     document.body.appendChild(rightButton);
 
     leftButton.addEventListener('touchstart', () => {
-      if (this.currentPosition[0] > 0) {
-        this.currentPosition[0] -= this.userSpeed;
-        this.drawUser();
-      }
+      this.updateUserPosition(-this.userSpeed);
     });
 
     rightButton.addEventListener('touchstart', () => {
-      if (this.currentPosition[0] < this.boardWidth - this.blockWidth) {
-        this.currentPosition[0] += this.userSpeed;
-        this.drawUser();
-      }
+      this.updateUserPosition(this.userSpeed);
     });
+  }
+
+  updateUserPosition(change) {
+    this.currentPosition[0] += change;
+    if (this.currentPosition[0] < 0) {
+      this.currentPosition[0] = 0;
+    }
+    if (this.currentPosition[0] > this.boardWidth - this.blockWidth) {
+      this.currentPosition[0] = this.boardWidth - this.blockWidth;
+    }
+    this.drawUser();
   }
 
   moveBall() {
