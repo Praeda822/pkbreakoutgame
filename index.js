@@ -21,9 +21,10 @@ class BreakoutGame {
     this.ballSpeed = 8;
     this.userSpeed = 25;
 
+    // Holds the interval for my new rows
     this.newRowInterval = 10000;
     // Will move my rows down
-    this.rowMoveInterval = 500;
+    this.rowMoveInterval = 1000;
     // User movement Interval ID for user movement
     this.userMoveIntervalId = null;
 
@@ -59,9 +60,9 @@ class BreakoutGame {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       this.userMoveIntervalId = setInterval(() => {
         this.updateUserPosition(
-          e.key === 'ArrowLeft' ? -this.userSpeed : this.userSpeed
+          e.key === 'ArrowLeft' ? -this.userSpeed / 2 : this.userSpeed / 2
         );
-      }, 25); // moves player every 25ms
+      }, 20); // moves player every 25ms
     }
   }
 
@@ -104,7 +105,6 @@ class BreakoutGame {
   }
 
   mkBlocks() {
-    const blocks = this.createBlocks();
     this.grid.innerHTML = ''; // Clear existing blocks, user, and ball
 
     for (let i = 0; i < this.blocks.length; i++) {
@@ -175,6 +175,10 @@ class BreakoutGame {
     this.rowIntervalId = setInterval(
       this.addNewRow.bind(this),
       this.newRowInterval
+    );
+    this.rowMoveIntervalId = setInterval(
+      this.moveRowsDown.bind(this),
+      this.rowMoveInterval
     );
     this.mkBlocks();
   }
@@ -324,6 +328,16 @@ class BreakoutGame {
       newRow.push(new Block(xAxis, yAxis));
     }
     this.blocks = this.blocks.concat(newRow);
+    this.mkBlocks();
+  }
+
+  moveRowsDown() {
+    for (let block of this.blocks) {
+      block.bottomLeft[1] -= this.blockHeight;
+      block.bottomRight[1] -= this.blockHeight;
+      block.topLeft[1] -= this.blockHeight;
+      block.topRight[1] -= this.blockHeight;
+    }
     this.mkBlocks();
   }
 
