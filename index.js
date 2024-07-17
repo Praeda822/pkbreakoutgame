@@ -18,6 +18,7 @@ class BreakoutGame {
     this.yDirection = 2;
     this.score = 0;
     this.level = 1;
+    this.gameIsOver = false;
     this.ballSpeed = 8;
     this.userSpeed = 25;
 
@@ -326,6 +327,7 @@ class BreakoutGame {
   }
 
   addNewRow() {
+    if (this.gameIsOver) return;
     const newRow = [];
     const yAxis = 290;
     for (let i = 0; i < 5; i++) {
@@ -359,6 +361,7 @@ class BreakoutGame {
     this.scoreDisplay.innerHTML = 'YOU LOSE';
     this.showGameOverPopup();
     document.removeEventListener('keydown', this.moveUser.bind(this));
+    this.gameIsOver = true;
   }
 
   showGameOverPopup() {
