@@ -91,13 +91,21 @@ class BreakoutGame {
   moveUser(e) {
     switch (e.key) {
       case 'ArrowLeft':
-        if (this.currentPosition[0] > 0)
+        if (this.currentPosition[0] > 0) {
           this.currentPosition[0] -= this.userSpeed;
+        }
+        if (this.currentPosition[0] < 0) {
+          this.currentPosition[0] = 0 - '10px';
+        }
         this.drawUser();
         break;
       case 'ArrowRight':
-        if (this.currentPosition[0] < this.boardWidth - this.blockWidth)
+        if (this.currentPosition[0] < this.boardWidth - this.blockWidth) {
           this.currentPosition[0] += this.userSpeed;
+        }
+        if (this.currentPosition[0] > this.boardWidth - this.blockWidth) {
+          this.currentPosition[0] = this.boardWidth - this.blockWidth - '10px';
+        }
         this.drawUser();
         break;
     }
@@ -256,7 +264,7 @@ class BreakoutGame {
 
     // Increase speed
     this.ballSpeed = Math.max(2, this.ballSpeed - 0.9);
-    this.userSpeed = Math.min(50, this.userSpeed + 2.5);
+    this.userSpeed = Math.min(50, this.userSpeed + 2);
 
     // Reset ball and user positions
     clearInterval(this.timerId);
