@@ -333,7 +333,7 @@ class BreakoutGame {
       newRow.push(new Block(xAxis, yAxis));
     }
     this.blocks = this.blocks.concat(newRow);
-    this.mkBlocks();
+    this.moveRowsDown();
   }
 
   moveRowsDown() {
@@ -345,6 +345,7 @@ class BreakoutGame {
     }
     this.mkBlocks();
   }
+
   gameOver() {
     clearInterval(this.timerId);
     clearInterval(this.rowIntervalId);
