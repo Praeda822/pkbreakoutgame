@@ -283,11 +283,7 @@ class BreakoutGame {
 
     // Check for game over
     if (this.ballCurrentPosition[1] <= 0) {
-      clearInterval(this.timerId);
-      clearInterval(this.rowIntervalId);
-      this.scoreDisplay.innerHTML = 'YOU LOSE';
-      this.showGameOverPopup();
-      document.removeEventListener('keydown', this.moveUser.bind(this));
+      this.gameOver();
     }
 
     // Check for level completion
@@ -348,6 +344,14 @@ class BreakoutGame {
       block.topRight[1] -= this.blockHeight;
     }
     this.mkBlocks();
+  }
+  gameOver() {
+    clearInterval(this.timerId);
+    clearInterval(this.rowIntervalId);
+    clearInterval(this.rowMoveIntervalId);
+    this.scoreDisplay.innerHTML = 'YOU LOSE';
+    this.showGameOverPopup();
+    document.removeEventListener('keydown', this.moveUser.bind(this));
   }
 
   showGameOverPopup() {
