@@ -342,6 +342,12 @@ class BreakoutGame {
       block.bottomRight[1] -= this.blockHeight;
       block.topLeft[1] -= this.blockHeight;
       block.topRight[1] -= this.blockHeight;
+
+      // checks if blocks reach the bottom!
+      if (block.bottomLeft[1] <= 0) {
+        this.gameOver();
+        return;
+      }
     }
     this.mkBlocks();
   }
