@@ -20,7 +20,12 @@ class BreakoutGame {
     this.level = 1;
     this.ballSpeed = 8;
     this.userSpeed = 25;
+
     this.newRowInterval = 10000;
+    // Will move my rows down
+    this.rowMoveInterval = 500;
+    // User movement Interval ID for user movement
+    this.userMoveIntervalId = null;
 
     this.userStart = [230, 10];
     this.currentPosition = [...this.userStart];
@@ -38,9 +43,34 @@ class BreakoutGame {
     this.ball.classList.add('ball');
     this.grid.appendChild(this.ball);
 
-    document.addEventListener('keydown', this.moveUser.bind(this));
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
+
+    document.addEventListener('keydown', this.handleKeyDown);
+    document.addEventListener('keyup', this.handleKeyUp);
+
     this.addTouchControls();
     this.startGame();
+  }
+
+  handleKeyDown(e) {
+    if (this.userMoveIntervalId) return;
+
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      this.userMoveIntervalId = setInterval(() => {
+        this.updateUserPosition(
+          e.key === 'ArrowLeft' ? -this.userSpeed : this.userSpeed
+        );
+      }, 25); // moves player every 25ms
+    }
+  }
+
+  // Maybe make a "drag" effect????
+  handleKeyUp(e) {
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      clearInterval(this.userMoveIntervalId);
+      this.userMoveIntervalId = null;
+    }
   }
 
   createBlocks() {
@@ -142,6 +172,10 @@ class BreakoutGame {
 
   startGame() {
     this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
+    this.rowIntervalId = setInterval(
+      this.addNewRow.bind(this),
+      this.newRowInterval
+    );
     this.mkBlocks();
   }
 
@@ -237,6 +271,7 @@ class BreakoutGame {
     // Check for game over
     if (this.ballCurrentPosition[1] <= 0) {
       clearInterval(this.timerId);
+      clearInterval(this.rowIntervalId);
       this.scoreDisplay.innerHTML = 'YOU LOSE';
       this.showGameOverPopup();
       document.removeEventListener('keydown', this.moveUser.bind(this));
@@ -263,6 +298,7 @@ class BreakoutGame {
 
     // Reset ball and user positions
     clearInterval(this.timerId);
+    clearInterval(this.rowIntervalId);
     this.ballCurrentPosition = [...this.ballStart];
     this.currentPosition = [...this.userStart];
     this.drawBall();
@@ -272,8 +308,23 @@ class BreakoutGame {
     this.blocks = this.createBlocks();
     this.mkBlocks();
 
-    // Restart ball movement with new speed
+    // Restart ball, movement with new speed & the new row interval (hopefully)
     this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
+    this.rowIntervalId = setInterval(
+      this.addNewRow.bind(this),
+      this.newRowInterval
+    );
+  }
+
+  addNewRow() {
+    const newRow = [];
+    const yAxis = 270;
+    for (let i = 0; i < 5; i++) {
+      const xAxis = 10 + i * 110;
+      newRow.push(new Block(xAxis, yAxis));
+    }
+    this.blocks = this.blocks.concat(newRow);
+    this.mkBlocks();
   }
 
   showGameOverPopup() {
