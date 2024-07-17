@@ -24,7 +24,7 @@ class BreakoutGame {
     // Holds the interval for my new rows
     this.newRowInterval = 10000;
     // Will move my rows down
-    this.rowMoveInterval = 1000;
+    this.rowMoveInterval = 2500;
     // User movement Interval ID for user movement
     this.userMoveIntervalId = null;
 
@@ -62,15 +62,24 @@ class BreakoutGame {
         this.updateUserPosition(
           e.key === 'ArrowLeft' ? -this.userSpeed / 2 : this.userSpeed / 2
         );
-      }, 20); // moves player every 25ms
+        this.userSpeed = Math.min(50, this.userSpeed + 1);
+      }, 20); // moves player every 20ms
     }
   }
 
-  // Maybe make a "drag" effect????
   handleKeyUp(e) {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       clearInterval(this.userMoveIntervalId);
-      this.userMoveIntervalId = null;
+      this.userMoveIntervalId = setInterval(() => {
+        this.updateUserPosition(
+          e.key === 'ArrowLeft' ? -this.userSpeed / 2 : this.userSpeed / 2
+        );
+        this.userSpeed = Math.max(25, this.userSpeed - 2);
+        if (this.userSpeed <= 25) {
+          clearInterval(this.userMoveIntervalId);
+          this.userMoveIntervalId = null;
+        }
+      }, 20);
     }
   }
 
