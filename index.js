@@ -22,9 +22,9 @@ class BreakoutGame {
     this.userSpeed = 25;
 
     // Holds the interval for my new rows
-    this.newRowInterval = 10000;
+    this.newRowInterval = 8000;
     // Will move my rows down
-    this.rowMoveInterval = 2500;
+    this.rowMoveInterval = 4250;
     // User movement Interval ID for user movement
     this.userMoveIntervalId = null;
 
@@ -327,7 +327,7 @@ class BreakoutGame {
 
   addNewRow() {
     const newRow = [];
-    const yAxis = 270;
+    const yAxis = 290;
     for (let i = 0; i < 5; i++) {
       const xAxis = 10 + i * 110;
       newRow.push(new Block(xAxis, yAxis));
