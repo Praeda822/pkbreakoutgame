@@ -61,9 +61,11 @@ To run this project locally, follow these steps:
 
 3. **Break Blocks**: Direct the ball to collide with blocks, breaking them and earning points.
 
-4. **Advance Levels**: Once all blocks are cleared, the game advances to the next level with increased difficulty.
+4. **Don't Get Overwhelmed!**: New rows of blocks will spawn in as you play the game, fortunately the ball _also_ breaks blocks on their respective top side! Watch for the bounce!
 
-5. **Avoid dropping the Ball**: If the ball falls below the paddle, the game ends. The game will also end if the ball gets stuck in a loop; in this case, manually restart the game by refreshing your page until I fix it.
+5. **Advance Levels**: Once all blocks are cleared, the game advances to the next level with increased difficulty.
+
+6. **Avoid dropping the Ball**: If the ball falls below the paddle, the game ends. The game will also end if the ball gets stuck in a loop; in this case, manually restart the game by refreshing your page until I fix it.
 
 ## Technologies Used
 
