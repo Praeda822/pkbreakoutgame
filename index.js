@@ -1,6 +1,13 @@
 'use strict';
 
 class BreakoutGame {
+  /**
+   * Represents the game constructor.
+   * @constructor
+   * @param {string} gridSelector - The selector for the game grid element.
+   * @param {string} scoreSelector - The selector for the score display element.
+   * @param {string} levelSelector - The selector for the level display element.
+   */
   constructor(gridSelector, scoreSelector, levelSelector) {
     this.grid = document.querySelector(gridSelector);
     this.scoreDisplay = document.querySelector(scoreSelector);
@@ -55,6 +62,10 @@ class BreakoutGame {
     this.startGame();
   }
 
+  /**
+   * Handles the keydown event and updates the user position accordingly.
+   * @param {KeyboardEvent} e - The keydown event object.
+   */
   handleKeyDown(e) {
     if (this.userMoveIntervalId) return;
 

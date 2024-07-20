@@ -23,7 +23,7 @@ You can play the game [here](https://pkbreakout.netlify.app).
 
 - Make the game mobile responsive
 - Stop the annoying zoom on phones when you're tapping the ass out of the buttons
-- Tidy up the CSS, decide on an official _theme_, so to speak (_I'm lowkey an artsy kinda dude it's a pisces thing lol_)
+- Tidy up the CSS, choose new colour theme
 - Implement that cool _InnitToWinnit_ idea I had for the game difficulty like Lauren was saying
 - Review the speed & timings with some other people _just in case_ they're still off...
 
