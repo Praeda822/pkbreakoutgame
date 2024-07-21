@@ -317,7 +317,7 @@ class BreakoutGame {
     this.ballSpeed = Math.max(2, this.ballSpeed - 0.9);
     this.userSpeed = Math.min(50, this.userSpeed + 2);
 
-    // Reset ball and user positions
+    // Reset ball + user pos
     clearInterval(this.timerId);
     clearInterval(this.rowIntervalId);
     this.ballCurrentPosition = [...this.ballStart];
@@ -325,11 +325,11 @@ class BreakoutGame {
     this.drawBall();
     this.drawUser();
 
-    // Create new blocks for the next level
+    // Makes new blocks
     this.blocks = this.createBlocks();
     this.mkBlocks();
 
-    // Restart ball, movement with new speed & the new row interval (hopefully)
+    // Restart ball,& movement with new speed & the new row interval speed
     this.timerId = setInterval(this.moveBall.bind(this), this.ballSpeed);
     this.rowIntervalId = setInterval(
       this.addNewRow.bind(this),
