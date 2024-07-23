@@ -472,9 +472,9 @@ class BreakoutGame {
 class Block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
-    this.bottomRight = [xAxis + 100, yAxis];
-    this.topLeft = [xAxis, yAxis + 20];
-    this.topRight = [xAxis + 100, yAxis + 20];
+    this.bottomRight = [xAxis + 120, yAxis];
+    this.topLeft = [xAxis, yAxis + 30];
+    this.topRight = [xAxis + 120, yAxis + 30];
   }
 }
 
