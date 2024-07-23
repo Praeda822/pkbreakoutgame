@@ -386,7 +386,8 @@ class BreakoutGame {
     ];
 
     this.blocks = newRow.concat(this.blocks);
-    this.moveRowsDown();
+    this.mkBlocks();
+    // this.moveRowsDown();
   }
 
   moveRowsDown() {
