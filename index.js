@@ -13,11 +13,11 @@ class BreakoutGame {
     this.scoreDisplay = document.querySelector(scoreSelector);
     this.levelDisplay = document.querySelector(levelSelector);
 
-    this.blockWidth = 100;
-    this.blockHeight = 20;
+    this.blockWidth = 120;
+    this.blockHeight = 30;
     this.ballDiameter = 20;
-    this.boardWidth = 560;
-    this.boardHeight = 300;
+    this.boardWidth = 800;
+    this.boardHeight = 400;
 
     this.timerId = null;
     this.rowIntervalId = null;
@@ -97,21 +97,24 @@ class BreakoutGame {
 
   createBlocks() {
     return [
-      new Block(10, 270),
-      new Block(120, 270),
-      new Block(230, 270),
-      new Block(340, 270),
-      new Block(450, 270),
-      new Block(10, 240),
-      new Block(120, 240),
-      new Block(230, 240),
-      new Block(340, 240),
-      new Block(450, 240),
-      new Block(10, 210),
-      new Block(120, 210),
-      new Block(230, 210),
-      new Block(340, 210),
-      new Block(450, 210),
+      new Block(10, 370),
+      new Block(140, 370),
+      new Block(270, 370),
+      new Block(400, 370),
+      new Block(530, 370),
+      new Block(660, 370),
+      new Block(10, 330),
+      new Block(140, 330),
+      new Block(270, 330),
+      new Block(400, 330),
+      new Block(530, 330),
+      new Block(660, 330),
+      new Block(10, 290),
+      new Block(140, 290),
+      new Block(270, 290),
+      new Block(400, 290),
+      new Block(530, 290),
+      new Block(660, 290),
     ];
   }
 
