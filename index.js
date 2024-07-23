@@ -13,8 +13,8 @@ class BreakoutGame {
     this.scoreDisplay = document.querySelector(scoreSelector);
     this.levelDisplay = document.querySelector(levelSelector);
 
-    this.blockWidth = 120;
-    this.blockHeight = 30;
+    this.blockWidth = 100;
+    this.blockHeight = 20;
     this.ballDiameter = 20;
     this.boardWidth = 800;
     this.boardHeight = 400;
@@ -117,26 +117,26 @@ class BreakoutGame {
       // new Block(660, 290),
 
       // ROW 1 REFACTOR
-      new Block(10, this.boardHeight - 40),
-      new Block(140, this.boardHeight - 40),
-      new Block(270, this.boardHeight - 40),
-      new Block(400, this.boardHeight - 40),
-      new Block(530, this.boardHeight - 40),
-      new Block(660, this.boardHeight - 40),
+      new Block(10, this.boardHeight - 35),
+      new Block(140, this.boardHeight - 35),
+      new Block(270, this.boardHeight - 35),
+      new Block(400, this.boardHeight - 35),
+      new Block(530, this.boardHeight - 35),
+      new Block(660, this.boardHeight - 35),
       // ROW 2 REFACTOR
-      new Block(10, this.boardHeight - 80),
-      new Block(140, this.boardHeight - 80),
-      new Block(270, this.boardHeight - 80),
-      new Block(400, this.boardHeight - 80),
-      new Block(530, this.boardHeight - 80),
-      new Block(660, this.boardHeight - 80),
+      new Block(10, this.boardHeight - 75),
+      new Block(140, this.boardHeight - 75),
+      new Block(270, this.boardHeight - 75),
+      new Block(400, this.boardHeight - 75),
+      new Block(530, this.boardHeight - 75),
+      new Block(660, this.boardHeight - 75),
       // ROW 3 REFACTOR
-      new Block(10, this.boardHeight - 120),
-      new Block(140, this.boardHeight - 120),
-      new Block(270, this.boardHeight - 120),
-      new Block(400, this.boardHeight - 120),
-      new Block(530, this.boardHeight - 120),
-      new Block(660, this.boardHeight - 120),
+      new Block(10, this.boardHeight - 115),
+      new Block(140, this.boardHeight - 115),
+      new Block(270, this.boardHeight - 115),
+      new Block(400, this.boardHeight - 115),
+      new Block(530, this.boardHeight - 115),
+      new Block(660, this.boardHeight - 115),
     ];
   }
 
@@ -364,22 +364,37 @@ class BreakoutGame {
 
   addNewRow() {
     if (this.gameIsOver) return;
-    const newRow = [];
-    const yAxis = 290;
-    for (let i = 0; i < 5; i++) {
-      const xAxis = 10 + i * 110;
-      newRow.push(new Block(xAxis, yAxis));
-    }
-    this.blocks = this.blocks.concat(newRow);
+    // const newRow = [];
+    // const yAxis = this.boardHeight - 35;
+    // for (
+    //   let i = 0;
+    //   i < Math.floor(this.boardWidth / (this.blockWidth + 10));
+    //   i++
+    // ) {
+    //   const xAxis = 10 + i * (this.blockWidth + 10);
+    //   newRow.push(new Block(xAxis, yAxis));
+    // }
+
+    const yAxis = this.boardHeight - this.blockHeight;
+    const newRow = [
+      new Block(10, yAxis),
+      new Block(140, yAxis),
+      new Block(270, yAxis),
+      new Block(400, yAxis),
+      new Block(530, yAxis),
+      new Block(660, yAxis),
+    ];
+
+    this.blocks = newRow.concat(this.blocks);
     this.moveRowsDown();
   }
 
   moveRowsDown() {
     for (let block of this.blocks) {
-      block.bottomLeft[1] -= this.blockHeight;
-      block.bottomRight[1] -= this.blockHeight;
-      block.topLeft[1] -= this.blockHeight;
-      block.topRight[1] -= this.blockHeight;
+      block.bottomLeft[1] -= this.blockHeight + 10;
+      block.bottomRight[1] -= this.blockHeight + 10;
+      block.topLeft[1] -= this.blockHeight + 10;
+      block.topRight[1] -= this.blockHeight + 10;
 
       // checks if blocks reach the bottom!
       if (block.bottomLeft[1] <= 0) {
@@ -494,9 +509,9 @@ class BreakoutGame {
 class Block {
   constructor(xAxis, yAxis) {
     this.bottomLeft = [xAxis, yAxis];
-    this.bottomRight = [xAxis + 120, yAxis];
-    this.topLeft = [xAxis, yAxis + 30];
-    this.topRight = [xAxis + 120, yAxis + 30];
+    this.bottomRight = [xAxis + 100, yAxis];
+    this.topLeft = [xAxis, yAxis + 20];
+    this.topRight = [xAxis + 100, yAxis + 20];
   }
 }
 
